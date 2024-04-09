@@ -4,7 +4,7 @@
   tasks:
     - name: Reglas previas a estándar CIS y calendarización
       ansible.builtin.include_tasks:
-        file: tareas-previas.yml
+        file: tasks/tareas-previas.yml
 
     - name: Resuelve cumplimiento con el estándar CIS Benchmark
       ansible.builtin.include_role:
@@ -14,4 +14,4 @@
 
     - name: Remediaciones correspondientes a Q1 2024
       ansible.builtin.include_tasks:
-        file: 2024-Q1.yml
+        file: tasks/2024-Q1.yml
