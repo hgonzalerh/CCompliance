@@ -20,5 +20,5 @@ steps:
   inputs:
     targetType: 'inline'
     script: >-
-      curl -k -A "nonstandardUA" 'https://admin:$(ANSIBLE_TOKEN)@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
+      curl -s -k -A "nonstandardUA" 'https://admin:$(ANSIBLE_TOKEN)@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
     failOnStderr: true
