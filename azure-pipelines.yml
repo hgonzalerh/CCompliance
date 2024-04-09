@@ -20,6 +20,5 @@ steps:
   inputs:
     targetType: 'inline'
     script: >-
-      curl -k -H "Authorization: Bearer $(ANSIBLE_CONTROLLER_ADMIN_TOKEN)" -A "nonstandardUA" https://electric-hermit-remarkably.ngrok-free.app/api/v2/me/ 
+      curl -k -A "nonstandardUA" 'https://admin:$(ANSIBLE_TOKEN)@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
     failOnStderr: true
-    
