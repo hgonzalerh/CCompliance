@@ -9,9 +9,6 @@
     - name: Resuelve cumplimiento con el estándar CIS Benchmark
       ansible.builtin.include_role:
         name: RedHatOfficial.rhel8_cis
-        apply:
-          become: yes
-
 
     - name: Remediaciones correspondientes a Q1 2024
       ansible.builtin.include_tasks:
