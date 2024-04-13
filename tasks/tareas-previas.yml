@@ -20,7 +20,6 @@
 - name: Registrar con Insights
   redhat.insights.insights_register:
     state: present
-  become: true
 
 - name: Asegura que la convención de nombre del equipo se cumpla
   ansible.builtin.fail:
