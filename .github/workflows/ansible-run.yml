@@ -9,8 +9,6 @@ jobs:
   post_api_call:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
       - name: Make a POST request
         run: |
