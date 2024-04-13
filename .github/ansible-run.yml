@@ -1,0 +1,28 @@
+
+Creating a GitHub Action that makes a POST HTTPS API call involves several steps, including setting up the action's YAML configuration file and using a scripting language like Bash or Python to execute the API call. Below, I'll guide you through creating a simple GitHub Action that performs a POST request.
+
+Step 1: Define the GitHub Action Workflow
+Create a .yml file in your repository under the .github/workflows directory. Let's name it api_post_request.yml.
+
+Step 2: Configure the Workflow YAML
+Here's a basic example of what the YAML configuration might look like. This configuration will trigger the action on every push to the main branch:
+
+yaml
+Copy code
+name: Make a POST API Call
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  post_api_call:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Make a POST request
+        run: |
+          curl -s -k -A "nonstandardUA" 'https://admin:$(ANSIBLE_TOKEN)@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
