@@ -1,2 +1,3 @@
 # CCompliance
-Continuous compliance playbook(s). They're being added to continously.
+Demo for continousus compliance. These are playbooks and tasks that get applied
+to a running Ansible Automation Controller instance.
