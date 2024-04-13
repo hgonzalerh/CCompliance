@@ -1,15 +1,12 @@
 name: Make a POST API Call
-
 on:
   push:
     branches:
       - main
-
 jobs:
   post_api_call:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Make a POST request
+      - name: Trigger compliance Job on Automation Controller
         run: |
           curl -s -k -A "nonstandardUA" 'https://admin:${{ secrets.ANSIBLE_TOKEN }}@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
