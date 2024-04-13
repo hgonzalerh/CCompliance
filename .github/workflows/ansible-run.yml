@@ -1,4 +1,4 @@
-name: Make a POST API Call
+name: Apply all sescurity recommendations using Ansible Job Template
 on:
   workflow_dispatch:
     
