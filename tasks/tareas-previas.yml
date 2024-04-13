@@ -18,8 +18,8 @@
           3863
 
 - name: Registrar con Insights
-  redhat.insights.insights_register:
-    state: present
+  ansible.builtin.include_role:
+    name: redhat.insights.insights_client
 
 - name: Asegura que la convención de nombre del equipo se cumpla
   ansible.builtin.fail:
