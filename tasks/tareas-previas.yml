@@ -17,6 +17,11 @@
           3235303932323133380a623763326231323739336666643734323664366363323435656361343331
           3863
 
+- name: Registrar con Insights
+  redhat.insights.insights_register:
+    state: present
+  become: true
+
 - name: Asegura que la convención de nombre del equipo se cumpla
   ansible.builtin.fail:
   when: ansible_hostname is regex('[-[:lower:]\d]+')
