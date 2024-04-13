@@ -23,5 +23,5 @@
 
 - name: Asegura que la convención de nombre del equipo se cumpla
   ansible.builtin.fail:
-  when: ansible_hostname is regex('[-[:lower:]\d]+')
+  when: ansible_hostname is not regex('[-a-z\d]+')
 ...
