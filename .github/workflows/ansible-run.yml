@@ -14,4 +14,4 @@ jobs:
 
       - name: Make a POST request
         run: |
-          curl -s -k -A "nonstandardUA" 'https://admin:$(ANSIBLE_TOKEN)@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
+          curl -s -k -A "nonstandardUA" 'https://admin:${{ secrets.ANSIBLE_TOKEN }}@electric-hermit-remarkably.ngrok-free.app/api/v2/me/'
