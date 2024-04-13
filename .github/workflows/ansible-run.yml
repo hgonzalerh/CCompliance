@@ -1,5 +1,7 @@
 name: Make a POST API Call
 on:
+  workflow_dispatch:
+    
   push:
     branches:
       - main
