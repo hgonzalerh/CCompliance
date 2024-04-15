@@ -10,7 +10,7 @@
 
 - name: Imprimir archivos a evaluar si existen
   ansible.builtin.debug:
-    msg: "{{ orphaned_file.stdout }}"
+    msg: "{{ orphaned_files.stdout }}"
   when: orphaned_files.rc == 0
   
 - name: Fallar el host si existen archivos huérfanos
