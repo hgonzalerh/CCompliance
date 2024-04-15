@@ -1,7 +1,5 @@
 name: Apply all security recommendations using Ansible Job Template
 on:
-  workflow_dispatch:
-    
   push:
     branches:
       - main
