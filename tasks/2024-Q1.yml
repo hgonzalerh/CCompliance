@@ -15,6 +15,6 @@
   
 - name: Fallar el host si existen archivos huérfanos
   ansible.builtin.fail:
-    fail_msg: "Se hallaron archivos huérfanos, corregir manualmente"
+    msg: "Se hallaron archivos huérfanos, corregir manualmente"
   when: orphaned_files.rc == 0
 ...
