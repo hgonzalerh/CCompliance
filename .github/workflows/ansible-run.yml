@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  post_api_call:
+  ApplyAnsibleFlows:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger compliance Job on Automation Controller
