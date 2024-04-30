@@ -9,12 +9,14 @@ jobs:
     steps:
       - name: Trigger compliance Job on Automation Controller
         run: |
+          ANSIBLE_CONTROLLER_URL="https://electric-hermit-remarkably.ngrok-free.app"
           RESPONSE=$(curl -X POST -s -k \
           -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}" \
           -A "nonstandardUA" \
-          'https://electric-hermit-remarkably.ngrok-free.app/api/v2/job_templates/Autocompliance++Default/launch/')
+          "$ANSIBLE_CONTROLLER_URL/api/v2/job_templates/Autocompliance++Default/launch/")
           JOB_ID=$(echo $RESPONSE | jq -r '.job')
           echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
+          echo "ANSIBLE_CONTROLLER_URL=$ANSIBLE_CONTROLLER_URL" >> $GITHUB_ENV
           echo El job id es $JOB_ID
 
       - name: Obtén el job ID y hazle polling hasta que termine
