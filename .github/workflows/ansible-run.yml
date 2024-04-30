@@ -8,8 +8,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger compliance Job on Automation Controller
-        run: >
-          curl -X POST -s -k 
-          -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}" 
-          -A "nonstandardUA" 
-          'https://electric-hermit-remarkably.ngrok-free.app/api/v2/job_templates/Autocompliance++Default/launch/'
+        run: |
+          RESPONSE=$(curl -X POST -s -k \
+          -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}" \
+          -A "nonstandardUA" \
+          'https://electric-hermit-remarkably.ngrok-free.app/api/v2/job_templates/Autocompliance++Default/launch/')
+          JOB_ID=$(echo $RESPONSE | jq -r '.job')
+          echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
+          echo El job id es $JOB_ID
+
+      - name: Obtén el job ID y hazle polling hasta que termine
+        run: |
+          JOB_STATUS="new"
+          while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running" ]]; do
+            sleep 10  # Poll every 30 seconds; adjust as necessary
+            RESPONSE=$(curl -s -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
+            JOB_STATUS=$(echo $RESPONSE | jq -r '.status')
+            echo "Job status: $JOB_STATUS"
+          done
+          if [[ "$JOB_STATUS" == "successful" ]]; then
+            echo "Job completed successfully."
+            exit 0
+          else
+            echo "Job failed with status $JOB_STATUS."
+            exit 1
+          fi
