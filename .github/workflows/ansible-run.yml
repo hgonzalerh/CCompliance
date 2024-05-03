@@ -25,7 +25,7 @@ jobs:
           JOB_STATUS="new"
           while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running" ]]; do
             sleep 10  # Poll every 30 seconds; adjust as necessary
-            RESPONSE=$(curl -s -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
+            RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             JOB_STATUS=$(echo $RESPONSE | jq -r '.status')
             echo "Job status: $JOB_STATUS"
           done
@@ -36,7 +36,7 @@ jobs:
             echo "Job failed with status $JOB_STATUS."
             ################ if job failed overall, report PLAY RECAP section===
             # Get job stdout
-            RESPONSE=$(curl -s -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
+            RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout/?format=txt" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             # Print host summary from STDOUT
             echo "Results, please examine failed hosts manually:"
             echo "$RESPONSE"
