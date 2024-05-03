@@ -39,6 +39,6 @@ jobs:
             RESPONSE=$(curl -s -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout?format=txt_download" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             # Print host summary from STDOUT
             echo "Results, please examine failed hosts manually:"
-            echo "$stdout" | awk '/PLAY RECAP/{flag=1} flag' | awk '{print $1}'
+            echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' | awk '{print $1}'
             exit 1
           fi
