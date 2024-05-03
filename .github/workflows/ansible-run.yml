@@ -38,7 +38,9 @@ jobs:
             # Get job stdout
             RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout/?format=txt" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             # Print host summary from STDOUT
-            echo "Results, please examine failed hosts manually:"
-            echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' | awk '{print $1}'
+            echo "Please examine failed hosts manually:"
+            echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' |grep 'failed=[1-9]' 
+            # | awk '{print $1}'
+            echo "====================================="
             exit 1
           fi
