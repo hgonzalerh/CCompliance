@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test
 jobs:
   ApplyAnsibleFlows:
     runs-on: ubuntu-latest
@@ -20,7 +21,7 @@ jobs:
           echo "ANSIBLE_CONTROLLER_URL=$ANSIBLE_CONTROLLER_URL" >> $GITHUB_ENV
           echo El job id es $JOB_ID
 
-      - name: Obtén el job ID y hazle polling hasta que termine
+      - name: Evaluate job running until completion and report failed hosts if any
         run: |
           JOB_STATUS="new"
           while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running" ]]; do
@@ -34,13 +35,12 @@ jobs:
             exit 0
           else
             echo "Job failed with status $JOB_STATUS."
-            ################ if job failed overall, report PLAY RECAP section===
+            ################ if job failed overall, report PLAY RECAP section
             # Get job stdout
             RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout/?format=txt" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             # Print host summary from STDOUT
             echo "Please examine failed hosts manually:"
             echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' |grep 'failed=[1-9]' 
-            # | awk '{print $1}'
             echo "====================================="
             exit 1
           fi
