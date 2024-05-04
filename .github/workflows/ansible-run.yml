@@ -22,17 +22,21 @@ jobs:
       - name: Trigger compliance Job on Automation Controller
         run: |
           ANSIBLE_CONTROLLER_URL="https://electric-hermit-remarkably.ngrok-free.app"
-          RESPONSE=$(curl -X POST -s -k \
-          -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}" \
-          -A "nonstandardUA" \
-          "$ANSIBLE_CONTROLLER_URL/api/v2/job_templates/Autocompliance++Default/launch/")
+          
+          # Start a new job through the Automation Controller API
+          RESPONSE=$(curl -X POST -s -k -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}" -A "nonstandardUA" "$ANSIBLE_CONTROLLER_URL/api/v2/job_templates/Autocompliance++Default/launch/")
+          
+          # Parse to get what job was started
           JOB_ID=$(echo $RESPONSE | jq -r '.job')
+          echo El job id es $JOB_ID
+          
+          # Pass variables to next step
           echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
           echo "ANSIBLE_CONTROLLER_URL=$ANSIBLE_CONTROLLER_URL" >> $GITHUB_ENV
-          echo El job id es $JOB_ID
 
-      - name: Evaluate job running until completion and report failed hosts if any
+      - name: Wait for completion of Compliance job and report failed hosts if any
         run: |
+          # Query the job API to see if it has finished
           JOB_STATUS="new"
           while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running" ]]; do
             sleep 10  # Poll every 30 seconds; adjust as necessary
@@ -40,14 +44,18 @@ jobs:
             JOB_STATUS=$(echo $RESPONSE | jq -r '.status')
             echo "Job status: $JOB_STATUS"
           done
+
           if [[ "$JOB_STATUS" == "successful" ]]; then
             echo "Job completed successfully."
             exit 0
           else
+            # Handle the job failure case, print what jobs have failed
             echo "Job failed with status $JOB_STATUS."
-            ################ if job failed overall, report PLAY RECAP section
-            # Get job stdout
+
+            # Report failed hosts
+            # Get job stdout to get the summary part
             RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout/?format=txt" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
+
             # Print host summary from STDOUT
             echo "Please examine failed hosts manually:"
             echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' | grep -E '(failed=[1-9])|(unreachable=[1-9])'
