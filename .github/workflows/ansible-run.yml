@@ -16,7 +16,6 @@ jobs:
         with:
           args: --profile min .
 
-
   testAnsiblePolicies:
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +50,7 @@ jobs:
             RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/stdout/?format=txt" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             # Print host summary from STDOUT
             echo "Please examine failed hosts manually:"
-            echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' |grep 'failed=[1-9]' 
+            echo "$RESPONSE" | awk '/PLAY RECAP/{flag=1} flag' | grep -E '(failed=[1-9])|(unreachable=[1-9])'
             echo "====================================="
             exit 1
           fi
