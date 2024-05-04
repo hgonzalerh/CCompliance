@@ -1,5 +1,3 @@
 collections:
   - community.general
-  - redhat.insights
-
-  
+  - redhatinsights.insights
