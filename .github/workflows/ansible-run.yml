@@ -40,7 +40,7 @@ jobs:
         run: |
           # Query the job API to see if it has finished
           JOB_STATUS="new"
-          while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running" ]]; do
+          while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running"  || "$JOB_STATUS" == "waiting" ]]; do
             sleep 10  # Poll every 30 seconds; adjust as necessary
             RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
             JOB_STATUS=$(echo $RESPONSE | jq -r '.status')
