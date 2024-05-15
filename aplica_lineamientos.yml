@@ -2,10 +2,10 @@
   hosts: all
   become: true
   tasks:
-    - name: Reglas previas a estándar CIS y calendarización
+    - name: Reglas previas a ningun reporte de seguridad ni estándar
       ansible.builtin.include_tasks:
         file: tasks/tareas-previas.yml
-        
+
     - name: Hardening estándar antes de ninguna remediación de reportes
       ansible.builtin.include_tasks:
         file: tasks/hardening-inicial.yml
