@@ -40,6 +40,8 @@ jobs:
         run: |
           # Query the job API to see if it has finished
           JOB_STATUS="new"
+          # Print where to find the logs
+          echo Examine job progress at "$ANSIBLE_CONTROLLER_URL/#/jobs/playbook/${JOB_ID}"
           while [[ "$JOB_STATUS" == "new" || "$JOB_STATUS" == "pending" || "$JOB_STATUS" == "running" ]]; do
             sleep 10  # Poll every 30 seconds; adjust as necessary
             RESPONSE=$(curl -s -k -A "nonstandardUA" -X GET "$ANSIBLE_CONTROLLER_URL/api/v2/jobs/$JOB_ID/" -H "Authorization: Bearer ${{ secrets.ANSIBLE_TOKEN }}")
