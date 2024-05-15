@@ -6,6 +6,7 @@
       find /bin /boot /etc /home /lib /lib64 /opt /root /sbin /srv /tmp /usr /var 
       -nouser -o -nogroup
   failed_when: false
+  changed_when: false
   register: orphaned_files
 
 - name: Imprimir archivos a evaluar si existen
