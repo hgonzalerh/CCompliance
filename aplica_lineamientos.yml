@@ -5,12 +5,11 @@
     - name: Reglas previas a estándar CIS y calendarización
       ansible.builtin.include_tasks:
         file: tasks/tareas-previas.yml
-    # Un comentario
+        
+    - name: Hardening estándar antes de ninguna remediación de reportes
+      ansible.builtin.include_tasks:
+        file: tasks/hardening-inicial.yml
 
-    # - name: Resuelve cumplimiento con el estándar CIS Benchmark
-    #   ansible.builtin.include_role:
-    #     name: RedHatOfficial.rhel8_cis
-
-    # - name: Remediaciones correspondientes a Q1 2024
-    #   ansible.builtin.include_tasks:
-    #     file: tasks/2024-Q1.yml
+    - name: Remediaciones correspondientes a Q1 2024
+      ansible.builtin.include_tasks:
+        file: tasks/2024-Q1.yml
