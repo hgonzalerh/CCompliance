@@ -18,4 +18,13 @@
   ansible.builtin.fail:
     msg: "Se hallaron archivos huérfanos, corregir manualmente"
   when: orphaned_files.stdout != ""
+
+- name: "Ensure permissions on /var are configured"
+  file:
+    path: /var
+    state: directory
+    recurse: no
+    owner: root
+    group: root
+    mode: 0755
 ...
