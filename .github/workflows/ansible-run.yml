@@ -16,7 +16,7 @@ jobs:
         with:
           args: --profile min .
 
-  testAnsiblePolicies:
+  runOnAnsible:
     runs-on: ubuntu-latest
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
