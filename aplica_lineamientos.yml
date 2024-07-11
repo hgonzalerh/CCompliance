@@ -5,6 +5,8 @@
     - name: Reglas previas a ningun reporte de seguridad ni estándar
       ansible.builtin.include_tasks:
         file: tasks/tareas-previas.yml
+      tags:
+        - registration
 
     - name: Hardening estándar antes de ninguna remediación de reportes
       ansible.builtin.include_tasks:
