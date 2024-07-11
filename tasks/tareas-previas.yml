@@ -22,6 +22,9 @@
 - name: Registrar con Insights
   ansible.builtin.include_role:
     name: redhat.insights.insights_client
+    apply:
+      tags:
+        - registration
   tags:
     - registration
     
