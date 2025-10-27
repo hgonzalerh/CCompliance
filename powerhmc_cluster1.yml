@@ -1,0 +1,17 @@
+---
+plugin: ibm.power_hmc.powervm_inventory
+hmc_hosts:
+  - hmc: <hmc_host_name>
+    user: <HMC2_Username>
+    password: <HMC_Password>
+group_lpars_by_managed_system: false
+system_filters:
+  State: 'operating'
+system_keyed_groups:
+  - prefix: type
+    key: SystemType
+system_compose:
+  maximum_partitions: MaximumPartitions
+  system_firmware: SystemFirmware
+  HMCIP: AssociatedHMC
+  HMCUSERNAME: AssociatedHMCUserName
